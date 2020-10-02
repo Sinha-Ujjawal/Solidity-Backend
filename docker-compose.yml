@@ -13,6 +13,10 @@ services:
     #   - db-data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
+      
+  redis_db:
+    image: redis:6.0.8-buster
+    restart: always
 
   pgadmin:
     image: dpage/pgadmin4
@@ -27,19 +31,31 @@ services:
     #   - pgadmin-data:/var/lib/pgadmin
     links:
       - "db:pgsql-server"
-      
-  redis_db:
-    image: redis:6.0.8-buster
-    restart: always
+
+    logging:
+      driver: none
   
   web:
     build: .
     command: ./entrypoint.sh 0.0.0.0:8000
     environment:
+      # Django settings
       - DJANGO_SUPERUSER_USERNAME=admin
       - DJANGO_SUPERUSER_PASSWORD=admin
       - DJANGO_SUPERUSER_EMAIL=ujjawal.sinha@solidity.com
+      
+      # python settings
       - PYTHONUNBUFFERED=1
+
+      # Database creds
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=db
+      
+      # Redis creds
+      - REDIS_HOST=redis_db
+      - REDIS_PORT=6379
     # volumes:
     #   - .:/solidity
     ports:

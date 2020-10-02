@@ -10,11 +10,13 @@ from django.contrib.auth.models import User
 
 
 class Quiz(models.Model):
+    id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="users")
     room_id = models.CharField(max_length=16, unique=True)
 
 
 class Question(models.Model):
+    id = models.AutoField(primary_key=True)
     quiz_id = models.ForeignKey(
         Quiz, on_delete=models.CASCADE, related_name="questions"
     )
@@ -22,6 +24,7 @@ class Question(models.Model):
 
 
 class Option(models.Model):
+    id = models.AutoField(primary_key=True)
     question_id = models.ForeignKey(
         Question, on_delete=models.CASCADE, related_name="options"
     )

@@ -7,10 +7,10 @@ from .models import Quiz
 
 
 class QuizConsumer(JsonWebsocketConsumer):
-    def __init__(self) -> None:
+    def connect(self):
         try:
-            token = self.scope["url_quote"]["kwargs"]["token"]
-            room_id = self.scope["url_quote"]["kwargs"]["token"]
+            token = self.scope["url_route"]["kwargs"]["token"]
+            room_id = self.scope["url_route"]["kwargs"]["room_id"]
 
             self.user: User = self.get_user(token=token)
 
