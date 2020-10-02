@@ -8,5 +8,4 @@ Execute the following commands-
 ```bash
 docker-compose up --build
 ```
-3. Done, now you can hit the following rest end points-
-
+3. Done
