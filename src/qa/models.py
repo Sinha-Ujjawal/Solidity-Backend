@@ -11,7 +11,6 @@ from django.contrib.auth.models import User
 
 class Quiz(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="users")
-    id = models.IntegerField(primary_key=True, auto_created=True)
     room_id = models.CharField(max_length=16, unique=True)
 
 
@@ -19,7 +18,6 @@ class Question(models.Model):
     quiz_id = models.OneToOneField(
         Quiz, on_delete=models.CASCADE, related_name="questions"
     )
-    id = models.IntegerField(primary_key=True, auto_created=True)
     question = models.TextField(max_length=500)
 
 
@@ -27,6 +25,5 @@ class Option(models.Model):
     question_id = models.OneToOneField(
         Question, on_delete=models.CASCADE, related_name="options"
     )
-    id = models.IntegerField(primary_key=True, auto_created=True)
     option = models.CharField(max_length=200)
     is_answer = models.BooleanField(default=False)
