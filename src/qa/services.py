@@ -5,7 +5,7 @@ from .models import *
 
 
 def create_quiz(*, user: User, quiz_questions: List[Dict[str, str]]):
-    quiz = Quiz.objects.create(user_id=user, room_id=secrets.token_urlsafe(16))
+    quiz = Quiz.objects.create(user_id=user, room_id=secrets.token_urlsafe(10))
 
     for quiz_question in quiz_questions:
         question = Question.objects.create(
