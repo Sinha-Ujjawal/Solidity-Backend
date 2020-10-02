@@ -1,0 +1,53 @@
+version: "3.8"
+   
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=ujjawal.sinha@solidity.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+      - PGADMIN_LISTEN_PORT=80
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    links:
+      - "db:pgsql-server"
+      
+  redis_db:
+    image: redis:6.0.8-buster
+    restart: always
+  
+  web:
+    build: .
+    command: ./entrypoint.sh 0.0.0.0:8000
+    environment:
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_EMAIL=ujjawal.sinha@solidity.com
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - .:/solidity
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis_db
+
+volumes:
+  db-data:
+  pgadmin-data:
