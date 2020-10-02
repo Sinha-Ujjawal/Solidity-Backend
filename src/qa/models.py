@@ -15,14 +15,14 @@ class Quiz(models.Model):
 
 
 class Question(models.Model):
-    quiz_id = models.OneToOneField(
+    quiz_id = models.ForeignKey(
         Quiz, on_delete=models.CASCADE, related_name="questions"
     )
     question = models.TextField(max_length=500)
 
 
 class Option(models.Model):
-    question_id = models.OneToOneField(
+    question_id = models.ForeignKey(
         Question, on_delete=models.CASCADE, related_name="options"
     )
     option = models.CharField(max_length=200)
